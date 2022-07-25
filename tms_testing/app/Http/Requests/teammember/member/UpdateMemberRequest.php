@@ -13,7 +13,8 @@ class UpdateMemberRequest extends FormRequest
     {
         if(Auth::check())
         {
-            return Auth::user()->can('update',Member::class) ;
+            return true;
+                //Auth::user()->can('update',Member::class) ;
         }
     }
 

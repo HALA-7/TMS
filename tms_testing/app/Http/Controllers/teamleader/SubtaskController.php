@@ -10,27 +10,24 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SubtaskController extends Controller
 {
 
-    public function index()
-    {
-
-    }
-
-
     public function store(CreateSubtaskRequest $request,Task $task)
     {
-        /*if(Auth::user()->team_id==$task->team_id)
-        dd('you can create sub task');
+        /* $testing=DB::table('users')
+                  ->join('members','users.id','=','members.user_id')
+                   ->select('members.id')
+                    ->where('users.team_id','=',Auth::user()->team_id)
+                   ->get();
+             dd($testing);*/
 
-        else
-             dd('you can not create');*/
-
+        //Test if the user can create the subtask for this task
         if($task->team_id==Auth::user()->team_id)
         {
-           // dd('you can create sub task');
+
              $data= $task->subtasks()->create([
             'title'=> $request->title,
             'description'=>$request->description,
@@ -60,19 +57,14 @@ class SubtaskController extends Controller
     }
 
 
-    public function show($id)
-    {
 
-    }
+
+
 
     public function update(UpdateSubtaskRequest $request,Task $task,Subtask $subtask)
     {
-        /*if(Auth::user()->team_id==$task->team_id)
-  dd('you can update sub task');
 
-  else
-       dd('you can not create');*/
-        if($task->team_id==Auth::user()->team_id)
+        if($task->team_id==Auth::user()->team_id && $task->id==$subtask->task_id)
         { //dd('you can update');
             $subtask->update([
                 'title'=> $request->title,
@@ -105,18 +97,23 @@ class SubtaskController extends Controller
 
 
     public function destroy(Task $task,Subtask $subtask)
-    { if(Auth::check())
-     { $this->authorize('delete', Subtask::class);
-         if(Auth::user()->team_id==$task->team_id)
-         {
+    {
+        if(Auth::check())
+
+         { $this->authorize('delete', Subtask::class);
+           if($task->team_id==Auth::user()->team_id && $task->id==$subtask->task_id)
+           {
              $subtask->delete();
              return response()->json(['message' => 'the subtask is deleted'], Response::HTTP_OK);
-         }
+            }
          else
          return response()->json(['message' => 'you can not delete this subtask'], Response::HTTP_OK);
-     }
+         }
 
-        return response()->json(['message' => 'unauthorized'], 401);
+        return response()->json(['message' => 'unauthorized'], 403);
 
     }
+
+
+
 }

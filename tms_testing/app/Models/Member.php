@@ -19,6 +19,7 @@ class Member extends Model
         'user_id',
         //'department_id'
     ];
+    protected $hidden=['pivot'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

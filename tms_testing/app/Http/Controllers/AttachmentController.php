@@ -15,10 +15,6 @@ use Illuminate\Support\Facades\DB;
 class AttachmentController extends Controller
 {
 
-    public function index()
-    {
-        //
-    }
 
 
     public function store(CreateAttachmentRequest $request,Task $task)
@@ -84,22 +80,10 @@ class AttachmentController extends Controller
 
        return response()->json(['message'=>'you are not authorize to add attachment to this task'],Response::HTTP_OK);
 
-
-
-
-
     }
-
-
-    public function show($id)
-    {
-        //
-    }
-
-
     public function update(UpdateAttachmentRequest $request, Task $task,Attachment $attachment)
     {
-       //it not allow to update the
+       //it allow to update the
        if(Auth::id()==$attachment->user_id)
        {
            if ($request->hasFile('file'))
@@ -144,5 +128,14 @@ class AttachmentController extends Controller
         else
             return response()->json(['unauthorized'], 401);
 
+    }
+
+    //----------------------------------SHOW ATTACHMENT------------------------
+
+    public function show(Request $request,Task $id)
+    {
+        $attachments=$id->attachments()->get();
+
+        return \response()->json($attachments);
     }
 }

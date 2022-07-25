@@ -43,4 +43,9 @@ class Task extends Model
         return $this->belongsTo(Status::class,'status_id');
     }
 
+    public function  test(Task $t)
+    {
+        $sh=Task::find($t->id)->with('subtasks')->get();
+    }
+
 }

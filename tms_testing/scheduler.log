@@ -1,0 +1,43 @@
+test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done test the done TEST IF DONETEST IF DONE
+   BadMethodCallException 
+
+  Method Illuminate\Database\Eloquent\Collection::update does not exist.
+
+  at C:\xampp\htdocs\laravel_pro\test\tms_testing\vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:113
+    109▕      */
+    110▕     public function __call($method, $parameters)
+    111▕     {
+    112▕         if (! static::hasMacro($method)) {
+  ➜ 113▕             throw new BadMethodCallException(sprintf(
+    114▕                 'Method %s::%s does not exist.', static::class, $method
+    115▕             ));
+    116▕         }
+    117▕
+
+  1   C:\xampp\htdocs\laravel_pro\test\tms_testing\app\Console\Commands\DailyTest.php:51
+      Illuminate\Support\Collection::__call("update")
+
+  2   C:\xampp\htdocs\laravel_pro\test\tms_testing\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+      App\Console\Commands\DailyTest::handle()
+
+   BadMethodCallException 
+
+  Method Illuminate\Database\Eloquent\Collection::update does not exist.
+
+  at C:\xampp\htdocs\laravel_pro\test\tms_testing\vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:113
+    109▕      */
+    110▕     public function __call($method, $parameters)
+    111▕     {
+    112▕         if (! static::hasMacro($method)) {
+  ➜ 113▕             throw new BadMethodCallException(sprintf(
+    114▕                 'Method %s::%s does not exist.', static::class, $method
+    115▕             ));
+    116▕         }
+    117▕
+
+  1   C:\xampp\htdocs\laravel_pro\test\tms_testing\app\Console\Commands\DailyTest.php:51
+      Illuminate\Support\Collection::__call("update")
+
+  2   C:\xampp\htdocs\laravel_pro\test\tms_testing\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+      App\Console\Commands\DailyTest::handle()
+TEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONETEST IF DONE

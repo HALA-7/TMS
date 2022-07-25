@@ -13,15 +13,17 @@ class MemberPolicy
     use HandlesAuthorization;
 
 
-  /*  public function viewAny(User $user)
+    public function viewAny(User $user)
     {
-        //
+        $member= Member::where('user_id',Auth::id())->value('user_id');
+        return  ($user->role_id==Role::team_member)&&(Auth::id()==$member);
     }
-*/
 
-    public function view(User $user, Member $member)
+
+    public function view(User $user)
     {
-        //
+
+        return  $user->role_id==Role::team_member;
     }
 
 
@@ -31,10 +33,10 @@ class MemberPolicy
     }
 
 
-    public function update(User $user)
+    public function update(User $user,Member $member)
     {
-        $member= Member::where('user_id',Auth::id())->value('user_id');
-        return  ($user->role_id==Role::team_member)&&(Auth::id()==$member);
+
+        return  ($user->role_id==Role::team_member)&&(Auth::id()==$member->user_id);
     }
 
 

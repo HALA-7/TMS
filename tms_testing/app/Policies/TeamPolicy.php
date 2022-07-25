@@ -42,9 +42,9 @@ class TeamPolicy
     }
 
 
-    /*public function restore(User $user, Team $department)
+    public function MyTeam(User $user)
     {
-        //
+        return $user->role_id==Role::team_leader ||$user->role_id==Role::team_member;
     }
 
 
@@ -52,5 +52,5 @@ class TeamPolicy
     {
         //
     }
-    */
+
 }

@@ -8,23 +8,43 @@ use App\Http\Requests\admin\meeting\UpdateMeetingRequest;
 use App\Http\Requests\admin\task\UpdateTaskRequest;
 use App\Models\Team;
 use App\Models\Meeting;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\at;
+use Illuminate\Support\Facades\DB;
+
 
 class MeetingController extends Controller
 {
     public $temp_array;
 
-    public function index()
-    {  $t=null;
-      //  $all_meeting=Meeting::query()->get();
+   /* public function index()
+    {
 
-        $all_meeting=Meeting::with('users')->get();
-        return response()->json($all_meeting);
+       if(Auth::check()) {
 
-    }
+           $this->authorize('viewAny', Meeting::class);
+           $time = Meeting::query()->get();
+
+           foreach ($time as $t) {
+               if ($t->meeting_date < Carbon::now()) {
+                   $t->update([
+                       'meeting_statuses_id' => 2,//finised
+                   ]);
+               }
+           }
+
+           $all_meeting = Meeting::with(['users'=>function($q){
+               $q->with(['leaders','members']);
+           }])->get();
+           return \response()->json( $all_meeting);
+
+
+       }
+
+    }*/
 
 
     public function store(CreateMeetingRequest $request)
@@ -33,7 +53,7 @@ class MeetingController extends Controller
             //'title'=>$request->title,
             'meeting_date'=>$request->meeting_date,
             'start_at'=>$request->start_at,
-            'meeting_statuses_id'=>$request->meeting_statuses_id
+            'meeting_statuses_id'=>Meeting::UpComing
         ]);
 
         foreach ($request->participant_list as $i)
@@ -41,16 +61,12 @@ class MeetingController extends Controller
             $meeting->users()->attach($i);
 
         }
-      //  dd($meeting->users()->get());
+
         return response()->json(['message'=>'Added successfully',$meeting,
             'with'=>$meeting->users()->get()],201);
     }
 
 
-   /* public function show($id)
-    {
-        //
-    }*/
 
 
     public function update(UpdateMeetingRequest $request, Meeting $meet)
@@ -74,6 +90,7 @@ class MeetingController extends Controller
     }
 
 
+
     public function destroy(Meeting $meet)
     {   if(Auth::check())
       {
@@ -82,4 +99,6 @@ class MeetingController extends Controller
         return response()->json(['message'=>'deleted is done'],Response::HTTP_OK);
       }
     }
+
+
 }

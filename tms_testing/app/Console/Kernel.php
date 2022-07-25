@@ -13,10 +13,26 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+    // i add it
+    protected $commands=[Commands\DailyTest::class];
+
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('test:daily')
+                 ->everyMinute()
+                 ->appendOutputTo('scheduler.log');
     }
+
+    /*
+     * define a default time zone
+     *
+     * public function scheduleTimezone()
+     * {
+     *    return 'America/Chicago';
+     * }
+     *
+     */
 
     /**
      * Register the commands for the application.

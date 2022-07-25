@@ -13,6 +13,8 @@ class Subtask extends Model
         'title', 'description', 'start_at', 'end_at', 'priority_id', 'status_id', 'task_id'
     ];
 
+    protected $hidden=['pivot'];
+
     public function task(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Task::class,'task_id');

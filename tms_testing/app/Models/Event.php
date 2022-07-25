@@ -9,7 +9,7 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $fillable=['title','user_id'];
+    protected $fillable=['event_name', 'start_date', 'end_date','user_id'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

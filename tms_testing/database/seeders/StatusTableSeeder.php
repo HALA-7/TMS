@@ -30,12 +30,17 @@ class StatusTableSeeder extends Seeder
 
         Status::query()->create([
                     'id'=>2,
-                    'name'=>'On Progress',
+                    'name'=>'In_Progress',
                 ]);
 
         Status::query()->create([
                     'id'=>3,
                     'name'=>'Missed',
                ]);
+
+        Status::query()->create([
+            'id'=>4,
+            'name'=>'To_DO',
+        ]);
     }
 }

@@ -14,12 +14,12 @@ class TaskPolicy
 
     public function viewAny(User $user)
     {
-        //
+        return$user->role_id==Role::admin;
     }
 
-    public function view(User $user, Task $task)
+    public function view(User $user, Task $id)
     {
-        //
+        return$user->role_id==Role::admin;
     }
 
 
@@ -41,13 +41,20 @@ class TaskPolicy
     }
 
 
-    /*public function restore(User $user, Task $task)
+    public function MyTask(User $user)
     {
-        //
+        return$user->role_id==Role::team_member||$user->role_id==Role::team_leader;
+    }
+
+    public function TaskStatus(User $user)
+    {
+        return$user->role_id==Role::admin||$user->role_id==Role::team_leader;
     }
 
 
-    public function forceDelete(User $user, Task $task)
+
+
+    /*public function forceDelete(User $user, Task $task)
     {
         //
     }

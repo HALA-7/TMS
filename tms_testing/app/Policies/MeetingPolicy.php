@@ -12,10 +12,10 @@ class MeetingPolicy
     use HandlesAuthorization;
 
 
-   // public function viewAny(User $user)
-    /*{
-        //
-    }*/
+    public function viewAny(User $user)
+    {
+        return $user->role_id==Role::admin;
+    }
 
 
     public function view(User $user, Meeting $meeting)
@@ -42,11 +42,11 @@ class MeetingPolicy
     }
 
 
-   /* public function restore(User $user, Meeting $meeting)
+    public function MyMeeting(User $user)
     {
-        //
+        return $user->role_id==Role::team_leader||  $user->role_id==Role::team_member ;
     }
-
+/*
     public function forceDelete(User $user, Meeting $meeting)
     {
         //

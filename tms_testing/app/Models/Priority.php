@@ -12,6 +12,11 @@ class Priority extends Model
     'name'
     ];
 
+    public const High=1;
+    public const Middle=2;
+    public const Low=3;
+
+
     public function  subtasks()
     {
         return $this->hasMany(Subtask::class,'priority_id');

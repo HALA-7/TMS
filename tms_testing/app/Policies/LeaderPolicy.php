@@ -18,13 +18,16 @@ class LeaderPolicy
 
     public function viewAny(User $user)
     {
-        //
+
+        $leader= Leader::where('user_id',Auth::id())->value('user_id');
+        return  ($user->role_id==Role::team_leader)&& (Auth::id()==$leader);
     }
 
 
-    public function view(User $user)
+    public function view(User $user,Leader $id)
     {
-        //
+        $leader= Leader::where('user_id',Auth::id())->value('leaders.id');
+        return  ($user->role_id==Role::team_leader)&& ($id->id==$leader);
     }
 
 
@@ -35,14 +38,9 @@ class LeaderPolicy
     }
 
 
-    public function update(User $user)
+    public function update(User $user,Leader $leader)
     {
-          // the $user in parameter of update function is to check role id
-          // the $leader is to check if this is a user who create the info
-          $leader= Leader::where('user_id',Auth::id())->value('user_id');
-         return  ($user->role_id==Role::team_leader)&& (Auth::id()==$leader);
-
-
+        return  ($user->role_id==Role::team_leader)&& ($leader->user_id==Auth::id());
     }
 
 

@@ -22,14 +22,15 @@ class CreateSubtaskRequest extends FormRequest
     {
         return [
 
-            'title'=>'required|min:5|:max:50',
+           'title'=>'required|min:5|:max:50',
             'description'=>'required|min:10|max:150',
-            'start_at'=>'required|date|after_or_equal:today',
-            'end_at'=>'required|date|after:start_date',
+            'start_at'=>'required|date',
+            'end_at'=>'required|date',
             'priority_id'=>'required',
             'status_id'=>'required',
             'user_list'=>'required' // the member that i will assigned to it
            // 'task_id'=>'required',
+
         ];
     }
 }

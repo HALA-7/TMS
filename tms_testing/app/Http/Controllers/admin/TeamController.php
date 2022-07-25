@@ -16,18 +16,6 @@ use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
-    // to show all team
-    public function index()
-    {
-       if(Auth::check())
-       {
-           $this->authorize('viewAny',Team::class);
-           $all_team=Team::query()->get();
-           return response()->json($all_team);
-       }
-    }
-
-
     public function store(StoreTeamRequest $request)
     {
         $data= Team::query()->create([
@@ -47,49 +35,6 @@ class TeamController extends Controller
         return response()->json(['message' => 'Updated successfully',$id], Response::HTTP_OK);
     }
 
-
-    //to show each team and its details
-    public function show(Team $id)
-    {      /*  $gg=$task->subtasks()->get();
-       $data_team=Team::find($id->id);
-        $data=$data_team->members()->get();
-        dd($data);
-        foreach($data as $i)
-        {
-           dd($i);
-        }
-        return response()->json(['message' => 'Updated successfully',$id]);*/
-        //$test=Team::with('leader','members')->get();
-        //return response()->json(['message' => $test]);
-       // $data_team=Team::find($id->id);
-        //$d1=$data_team->members()->get();
-        //------------------------------------
-        if(Auth::check()) {
-            $this->authorize('view',$id);
-            $test = DB::table('teams')
-                ->join('users', 'teams.id', '=', 'users.team_id')
-
-                ->select('first_name', 'last_name')
-                ->where('role_id', '=', Role::team_leader)
-                ->where('team_id', '=', $id->id)
-                ->get();
-
-            $test1 = DB::table('teams')
-                ->join('users', 'teams.id', '=', 'users.team_id')
-                ->select('first_name', 'last_name')
-                ->where('role_id', '=', Role::team_member)
-                ->where('team_id', '=', $id->id)
-                ->get();
-            return response()->json(['team' => $id, 'leader' => $test, 'members' => $test1],Response::HTTP_OK);
-        }
-
-
-
-
-
-    }
-
-
     public function destroy(Team $id)
     {
         if(Auth::check())
@@ -101,4 +46,52 @@ class TeamController extends Controller
 
 
     }
+
+
+    // TO SHOW ALL TEAMS ONLY ITS NAME
+    public function ShowTeams()
+    {
+        if(Auth::check())
+        {
+            $this->authorize('viewAny',Team::class);
+            $all_team=Team::query()->get();
+            return response()->json($all_team);
+        }
+    }
+
+
+    //TO SHOW EACH TEAM AND ITS DETAILS (the leaders and members)
+    public function ShowTeam(Team $id)
+    {
+
+        if(Auth::check()) {
+            $this->authorize('view',$id);
+
+            $leader = DB::table('teams')
+                ->join('users', 'teams.id', '=', 'users.team_id')
+                ->join('leaders','users.id','=','leaders.user_id')
+                ->select('role_id','users.id','first_name', 'last_name','img_profile')
+                ->where('role_id', '=', Role::team_leader)
+                ->where('team_id', '=', $id->id)
+                ->get();
+
+            //$id->leader()->get();
+            //$id->members()->get();
+            $members = DB::table('teams')
+                ->join('users', 'teams.id', '=', 'users.team_id')
+                ->join('members','users.id','=','members.user_id')
+                ->select('role_id','users.id','first_name', 'last_name','img_profile')
+                ->where('role_id', '=', Role::team_member)
+                ->where('team_id', '=', $id->id)
+                ->get();
+            return response()->json([ 'leader' => $leader, 'members' => $members],Response::HTTP_OK);
+        }
+
+    }
+
+
+
+
+
+
 }

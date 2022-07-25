@@ -2,17 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\teammember\subtask\UpdateSubtaskRequest;
+use App\Mail\TestSentMail;
+use App\Models\Subtask;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use \Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\lessThanOrEqual;
 
 class TestController extends Controller
 {
 
-    public function  show()
-    {
+   // public function  show()
+    //{
+
+       /* $t= Task::query()->get();
+        foreach ($t as $tt)
+        {
+            $tm=$tt->subtasks()->where('status_id','=',1)->count();
+            $tm1=$tt->subtasks()->count();
+
+            if($tm ==$tm1 && $tt->end_date >now())
+              echo 'update this task automatically'.' '.$tt->id.'  ';
+
+            else if($tm !=$tm1 && $tt->end_date <now())
+                echo 'missed this task automatically'.' '.$tt->id;
+
+
+        }*/
+//}
+      /*  public function show(Task $task,Subtask $subtask)
+        {
+            if(Carbon::now()>$subtask->end_at)
+            {
+                dd('missed');
+
+            }
+            else if(Carbon::now()<$subtask->start_at)
+            {   dd('this subtask does not begin');
+
+            }
+            else
+            {
+                dd('you can update');
+            }
+        }
+*/
+
+
+
         //method 1 using Query Builder
     // $users=DB::table('users')->get();
 
@@ -86,8 +128,8 @@ class TestController extends Controller
        // dd($tests);
 
 
-        $test=DB::table('statuses')->get();
-        return \response( $test, Response::HTTP_OK);
+      //  $test=DB::table('statuses')->get();
+       // return \response( $test, Response::HTTP_OK);
       //  $test2=DB::table('teams')->get();
         //$test3=DB::table('Meetings')->get();
         //$test4=DB::table('Tasks')->get();
@@ -95,4 +137,38 @@ class TestController extends Controller
 
 
     }
-}
+
+    /*public function  sendmail(Request $request)
+    {
+        $request->validate([
+
+            'email'=>['required','email'],
+            'password'=>['required']
+
+        ]);
+        $na=$request->email;
+        $password=$request->password;
+        Mail::to($request->email)->send(new TestSentMail($password));
+
+        return \response()->json(['message'=>'check your mail']);
+
+    }*/
+    /*  $gg=$task->subtasks()->get();
+    $data_team=Team::find($id->id);
+     $data=$data_team->members()->get();
+     dd($data);
+     foreach($data as $i)
+     {
+        dd($i);
+     }
+     return response()->json(['message' => 'Updated successfully',$id]);*/
+    //$test=Team::with('leader','members')->get();
+    //return response()->json(['message' => $test]);
+    // $data_team=Team::find($id->id);
+    //$d1=$data_team->members()->get();
+
+    //------------------------------------
+
+
+
+

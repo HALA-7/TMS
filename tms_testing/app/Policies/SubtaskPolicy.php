@@ -14,7 +14,7 @@ class SubtaskPolicy
 
    public function viewAny(User $user)
     {
-        //
+
     }
 
 
@@ -42,12 +42,19 @@ class SubtaskPolicy
     }
 
 
-  /*  public function restore(User $user, Subtask $subtask)
+    public function MySubTask(User $user)
     {
-        //
+        return $user->role_id==Role::team_leader || $user->role_id==Role::team_member;
     }
 
-    public function forceDelete(User $user, Subtask $subtask)
+    public function SubStatus(User $user)
+    {
+        return $user->role_id==Role::team_leader || $user->role_id==Role::team_member;
+    }
+
+
+
+  /*  public function forceDelete(User $user, Subtask $subtask)
     {
         //
     }

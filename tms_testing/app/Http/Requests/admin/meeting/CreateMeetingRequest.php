@@ -34,7 +34,7 @@ class CreateMeetingRequest extends FormRequest
             'meeting_date'=>'required|date|after_or_equal:today',
             'start_at'=>'required|date_format:"H:i"',
             'participant_list'=>'required', // to define the user that i want to meeting them
-            'meeting_statuses_id'=>'required'
+           // 'meeting_statuses_id'=>'required'
         ];
     }
 }

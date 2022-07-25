@@ -13,6 +13,11 @@ class Status extends Model
      'name'
     ];
 
+    public const Completed=1;
+        public const On_Progress=2;
+    public const Missed=3;
+    public const To_DO=4;
+
     public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Task::class,'status_id');

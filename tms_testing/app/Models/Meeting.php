@@ -16,6 +16,10 @@ class Meeting extends Model
         'start_at',
         'meeting_statuses_id',
         ];
+    protected  $hidden=['pivot'];
+    public const UpComing= 1;
+    public const Finished=2;
+    public const Delayed=3;
 
     public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

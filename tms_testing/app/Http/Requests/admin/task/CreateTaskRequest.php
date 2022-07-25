@@ -24,6 +24,8 @@ class CreateTaskRequest extends FormRequest
             'description'=>'required|min:10|max:150',
             'start_date'=>'required|date|after_or_equal:today',
             'end_date'=>'required|date|after:start_date',
+          // 'start_date'=>'required|date',
+            //'end_date'=>'required|date',
             'status_id'=>'required',
             'team_id'=>'required'
         ];

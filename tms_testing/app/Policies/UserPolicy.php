@@ -13,13 +13,13 @@ class UserPolicy
 
     public function viewAny(User $user)
     {
-        //
+        return $user->role_id==Role::admin;
     }
 
 
     public function view(User $user, User $model)
     {
-
+        return $user->role_id==Role::admin;
     }
 
 

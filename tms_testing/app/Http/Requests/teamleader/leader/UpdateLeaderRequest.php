@@ -21,19 +21,7 @@ class UpdateLeaderRequest extends FormRequest
     public function authorize()
     {
         if(Auth::check())
-        {
-            return Auth::user()->can('update',Leader::class) ;
-        }
-
-     //   if(Auth::check())
-       // { $user=Auth::user();
-         //   $leader= Leader::where('user_id',Auth::id())->value('user_id');
-
-           // return  ($user->role_id==Role::team_leader)&&
-             //   (Auth::id()==$leader);
-
-        //}
-
+            return true;
 
 
     }

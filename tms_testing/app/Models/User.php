@@ -29,9 +29,7 @@ class User extends Authenticatable
     ];
 
 
-    protected $hidden = [
-
-    ];
+    protected $hidden = ['pivot','password'];
 
     public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -50,7 +48,7 @@ class User extends Authenticatable
 
     public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Member::class,'user-_id');
+        return $this->hasMany(Member::class,'user_id');
     }
 
     public function meetings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -16,11 +16,7 @@ use Illuminate\Support\Facades\DB;
 class MemberController extends Controller
 {
 
-    public function index()
-    {
-        $all_members=Member::with('user')->get();
-        return  response()->json( $all_members);
-    }
+
 
     public function store(CreateMemberRequest $request)
     {    $gg= DB::table('members')->where('user_id','=',Auth::id())->value('user_id');
@@ -51,17 +47,15 @@ class MemberController extends Controller
     }
 
 
-    public function show(Member $id)
-    {
-        //  dd($s);
-        return response()->json(['your info:'=>$id,$id->user()->get()]);
-    }
+
+
+
 
 
     public function update(UpdateMemberRequest $request,Member $member)
     {
+        $this->authorize('update',$member);
         $image_temp=null;
-
         if($request->hasFile('img_profile')) {
             $file = $request->file('img_profile');
             $extension = $file->getClientOriginalExtension();
@@ -81,8 +75,5 @@ class MemberController extends Controller
     }
 
 
-    public function destroy($id)
-    {
-        //
-    }
+
 }
