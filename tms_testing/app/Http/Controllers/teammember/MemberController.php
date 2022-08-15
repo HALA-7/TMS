@@ -31,8 +31,10 @@ class MemberController extends Controller
                 $file = $request->file('img_profile');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
-                $file->move('public/image', $filename);
-                $image_temp = $filename;
+                $file->move('images',$filename);
+                $link=asset('images/'.$filename);
+                $link2=substr($link,-21);
+                $image_temp = $link2;
             }
 
             $data = Member::query()->create([
@@ -60,8 +62,10 @@ class MemberController extends Controller
             $file = $request->file('img_profile');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->move('public/image', $filename);
-            $image_temp = $filename;
+            $file->move('images',$filename);
+            $link=asset('images/'.$filename);
+            $link2=substr($link,-21);
+            $image_temp = $link2;
         }
 
         $member->update([

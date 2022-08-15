@@ -18,8 +18,8 @@ class EventController extends Controller
         $event=Event::query()->create([
 
             'event_name'=>$request->event_name,
-        'start_date'=>$request->start_date,
-        'end_date'=>$request->end_date,
+        //'start_date'=>$request->start_date,
+        //'end_date'=>$request->end_date,
         'user_id'=>Auth::id()
             ]);
         return response()->json(['added done'=> $event],201);
@@ -30,8 +30,8 @@ class EventController extends Controller
         $this->authorize('update',$id);
         $id->update([
             'event_name'=>$request->event_name,
-            'start_date'=>$request->start_date,
-            'end_date'=>$request->end_date,
+            //'start_date'=>$request->start_date,
+            //'end_date'=>$request->end_date,
             'user_id'=>Auth::id()
         ]);
 

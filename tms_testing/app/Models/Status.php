@@ -17,6 +17,7 @@ class Status extends Model
         public const On_Progress=2;
     public const Missed=3;
     public const To_DO=4;
+    public const Late=5;
 
     public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

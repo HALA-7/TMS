@@ -48,9 +48,6 @@ class TeamPolicy
     }
 
 
-    public function forceDelete(User $user, Team $department)
-    {
-        //
-    }
+
 
 }

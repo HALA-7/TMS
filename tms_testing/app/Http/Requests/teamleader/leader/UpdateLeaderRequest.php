@@ -29,9 +29,10 @@ class UpdateLeaderRequest extends FormRequest
     public function rules()
     {
         return [
-            'img_profile'=>'image|mimes:jpg,png,jpeg,gif|max:2048',//may be nullable
+            'img_profile'=>'image',//may be nullable
             'phone'=>'required|numeric|min:10',
-            'contact'=>'max:200',
+            //'contact'=>'max:200',
+            'contact'=>'url',
             'education'=>'min:5|max:100',
             'experience'=>'min:5|max:100',
             // 'user_id'=>'', not required we will get it from authenticated user

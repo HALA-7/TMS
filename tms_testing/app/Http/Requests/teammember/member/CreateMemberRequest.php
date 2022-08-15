@@ -20,9 +20,10 @@ class CreateMemberRequest extends FormRequest
     {
         return [
 
-            'img_profile'=>'image|mimes:jpg,png,jpeg,gif,svg|max:2048',//may be nullable
+            'img_profile'=>'image',//may be nullable
             'phone'=>'required|numeric|min:10',
-            'contact'=>'max:200',
+            //'contact'=>'max:200',
+            'contact'=>'url',
             'education'=>'min:5|max:100',
             //'user_id', no required we added from authentication
         ];

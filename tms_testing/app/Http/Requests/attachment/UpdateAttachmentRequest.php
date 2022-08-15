@@ -27,9 +27,9 @@ class UpdateAttachmentRequest extends FormRequest
         return [
             'title'=>'required|min:10|max:500',
             'description'=>'required|url',
-            'file'=>'mimes:csv,txt,xlx,xls,pdf',
-            'FileName'=>'string',
-            'FilePath'=>'string'
+            //'file'=>'mimes:csv,txt,xlx,xls,pdf',
+            //'FileName'=>'string',
+            //'FilePath'=>'string'
         ];
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LeaderController extends Controller
 {
@@ -38,8 +39,10 @@ class LeaderController extends Controller
                 $file = $request->file('img_profile');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
-                $file->move('public/image', $filename); //it will store the image in public folder
-                $image_temp = $filename;
+                $file->move('images',$filename);
+                $link=asset('images/'.$filename);
+                $link2=substr($link,-21);
+                $image_temp = $link2;
             }
 
             $data = Leader::query()->create([
@@ -62,14 +65,19 @@ class LeaderController extends Controller
     public function update(UpdateLeaderRequest $request,Leader $leader)
     {
         $this->authorize('update',$leader);
-        $image_temp='';
-        if($request->hasFile('img_profile')) {
+        $image_temp=null;
+        if($request->hasFile('img_profile'))
+        {
             $file = $request->file('img_profile');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
-            $file->move('public/image', $filename);
-            $image_temp = $filename;
+            $file->move('images',$filename);
+            $link=asset('images/'.$filename);
+            $link2=substr($link,-21);
+            $image_temp = $link2;
+
         }
+
 
         $leader->update([
             'img_profile'=>$image_temp,//'mimes:jpg,png,jpeg'
@@ -82,6 +90,7 @@ class LeaderController extends Controller
         return response()->json(['message'=>'information updated successfully','the info:'=>$leader],Response::HTTP_OK);
 
     }
+
 
 
 

@@ -10,7 +10,7 @@ class Subtask extends Model
     use HasFactory;
 
     protected $fillable=[
-        'title', 'description', 'start_at', 'end_at', 'priority_id', 'status_id', 'task_id'
+        'title', 'description', 'start_at', 'end_at', 'priority_id', 'status_id', 'task_id','test'
     ];
 
     protected $hidden=['pivot'];

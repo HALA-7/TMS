@@ -29,8 +29,7 @@ class CreateMeetingRequest extends FormRequest
     public function rules()
     {
         return [
-           //  'title'=>'required',
-           // 'discussion_point'=>'required|max:250',
+
             'meeting_date'=>'required|date|after_or_equal:today',
             'start_at'=>'required|date_format:"H:i"',
             'participant_list'=>'required', // to define the user that i want to meeting them

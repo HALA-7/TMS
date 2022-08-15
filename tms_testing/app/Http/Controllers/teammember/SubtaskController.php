@@ -4,13 +4,17 @@ namespace App\Http\Controllers\teammember;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\teammember\subtask\UpdateSubtaskRequest;
+use App\Models\Role;
 use App\Models\Status;
 use App\Models\Subtask;
 use App\Models\Task;
+use App\Models\User;
+use App\Notifications\SubTaskUpdatedNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class SubtaskController extends Controller
 {
@@ -26,9 +30,11 @@ class SubtaskController extends Controller
             ->where('subtask_id', '=', $subtask->id)
             ->get();
 
-        foreach ($r as $t) {
+        foreach ($r as $t)
+        {
 
-            if ($t->user_id == Auth::id() &&$task->id==$subtask->task_id)
+            // if this subtask for this user
+            if ($t->user_id == Auth::id() && $task->id==$subtask->task_id)
             {
                 if ($subtask->status_id==Status::Missed)
                 {
@@ -38,6 +44,11 @@ class SubtaskController extends Controller
                 else
                 {
                     $subtask->update(['status_id' => $request->status_id,]);
+                    $led=User::query()
+                        ->where('role_id','=',Role::team_leader)
+                        ->where('team_id','=',Auth::user()->team_id)
+                        ->get();
+                    Notification::send($led,new SubTaskUpdatedNotification($subtask));
                     return response()->json(['the sub task is updated', 'the sub task is' => $subtask]);
                 }
 

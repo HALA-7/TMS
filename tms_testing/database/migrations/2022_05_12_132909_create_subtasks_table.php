@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('start_at');
             $table->date('end_at');
+            $table->boolean('test');//new one
             $table->foreignId('priority_id')->constrained('priorities')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

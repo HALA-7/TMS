@@ -42,5 +42,11 @@ class StatusTableSeeder extends Seeder
             'id'=>4,
             'name'=>'To_DO',
         ]);
+
+        // this is for subtask
+        Status::query()->create([
+            'id'=>5,
+            'name'=>'Late',
+        ]);
     }
 }

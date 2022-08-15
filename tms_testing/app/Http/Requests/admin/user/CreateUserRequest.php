@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
             'employee_identical'=>'required|unique:App\Models\User,employee_identical|min:3|max:8',
             'password'=>'required|min:6|string',
             'role_id'=>'required',
-            'team_id'=>'required',
+             'team_id'=>'required',
         //    'remember_token'=>'boolean'
         ];
 

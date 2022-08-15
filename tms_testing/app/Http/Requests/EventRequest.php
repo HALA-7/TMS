@@ -19,8 +19,8 @@ class EventRequest extends FormRequest
     {
         return [
             'event_name'=>'string|min:5|max:70',
-            'start_date'=>'date',
-            'end_date'=>'date',
+           // 'start_date'=>'date',
+            //'end_date'=>'date',
             //'user_id'
         ];
     }

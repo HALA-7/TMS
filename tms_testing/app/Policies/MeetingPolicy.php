@@ -20,7 +20,7 @@ class MeetingPolicy
 
     public function view(User $user, Meeting $meeting)
     {
-        //
+
     }
 
 
@@ -46,10 +46,5 @@ class MeetingPolicy
     {
         return $user->role_id==Role::team_leader||  $user->role_id==Role::team_member ;
     }
-/*
-    public function forceDelete(User $user, Meeting $meeting)
-    {
-        //
-    }
-   */
+
 }

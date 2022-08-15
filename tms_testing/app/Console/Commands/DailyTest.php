@@ -5,9 +5,12 @@ namespace App\Console\Commands;
 use App\Models\Status;
 use App\Models\Subtask;
 use App\Models\Task;
+use App\Models\User;
+use App\Notifications\SubTaskRemenderNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class DailyTest extends Command
 {
@@ -42,45 +45,75 @@ class DailyTest extends Command
         //$bool2=0;
 
         // get all subtask from database and test its status
-        // if it is not completed and the rich the (after) end date
+        // if it is not completed and it riches the (after) end date
+        // and the base task is not riches to the end date
+        // make it as late
         // make the status of subtask as MISSED
+
+        //-----------------------------------THIS FOR UPDATE SUBTASK STATUS----------------------------
         $subtask=Subtask::query()->get();
         foreach($subtask as $s)
         {
-            if (\Carbon\Carbon::now() > $s->end_at && $s->status_id != Status::Completed)
-              {$subtask->update(['status_id' => Status::Missed]);}
-           // $bool1=1;
+            $show_task=DB::table('tasks')
+                //->select('end_date')
+                ->where('tasks.id','=',$s->task_id)
+                ->value('end_date');
+
+            // subtask rich end-date                 not completed                          task not end yet
+            if(\Carbon\Carbon::now() > $s->end_at && $s->status_id != Status::Completed && $show_task > \Carbon\Carbon::now())
+            {
+                // make subtask as late
+                $s->update(['status_id' => Status::Late]);
+            }
+            // subtask rich end-date                 not completed                          task end
+            else if(\Carbon\Carbon::now() > $s->end_at && $s->status_id != Status::Completed && $show_task <Carbon::now())
+            {
+                //make subtask as missed so cannot update it
+                $s->update(['status_id' => Status::Missed]);
+            }
         }
 
+        //---------------------------THIS FOR UPDATE TASK STATUS------------------------------
 
         $all_task= Task::query()->get();
         foreach ($all_task as $tt)
         {
-            $tm=$tt->subtasks()->where('status_id','=',Status::Completed)->count();
-            $tm1=$tt->subtasks()->count();
+            $completed_st=$tt->subtasks()->where('status_id','=',Status::Completed)->count();
+            $all_st=$tt->subtasks()->count();
 
             //if all subtask completed
             // and we dont rich to the end date of Task yet
             //so the task is COMPLETED
+          if($all_st>0) {
+              if ($completed_st == $all_st && $tt->end_date >= Carbon::now()) {
+                  $tt->update(['status_id' => Status::Completed]);
+              }
 
-            if($tm ==$tm1 && $tt->end_date >Carbon::now())
-            {$tt->update(['status_id'=>Status::Completed]);}
+              if ($completed_st != $all_st && $tt->end_date < Carbon::now())
+              {
+                  $tt->update(['status_id' => Status::Missed]);
+              }
 
-            else if($tm != $tm1 && $tt->end_date < Carbon::now())
-            {$tt->update(['status_id'=>Status::Missed]);}
+              /*
+           1) if($tm != $tm1 && $tt->end_date >Carbon::now())
+                 the task will be IN PROGRESS OR TO DO
 
-            /*
-         1) if($tm != $tm1 && $tt->end_date >Carbon::now())
-               the task will be IN PROGRESS OR TO DO
+           2) if($tm == $tm1 && $tt->end_date <Carbon::now())
+                 the task will update automatically to COMPLETED
 
-         2) if($tm == $tm1 && $tt->end_date <Carbon::now())
-               the task will update automatically to COMPLETED
+           */
+          }//end if
+            else if($all_st==0)
+            {
+                if ($tt->end_date < Carbon::now()) {
+                    $tt->update(['status_id' => Status::Missed]);
+                }
+            }
 
-         */
 
-       // $bool2=1;
-        }
-      //  if($bool1 && $bool2)
+        }//end for
+
+
         echo 'TEST IF DONE';
 
     }

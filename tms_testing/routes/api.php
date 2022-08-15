@@ -38,6 +38,8 @@ Route::middleware(['auth:api'])->group(callback: function (){
     Route::delete('/delete/{id}',[App\Http\Controllers\admin\TeamController::class,'destroy']);
     Route::get('/show/team',[App\Http\Controllers\admin\TeamController::class,'ShowTeams']);//all team
     Route::get('/show/team/{id}',[App\Http\Controllers\admin\TeamController::class,'ShowTeam']);
+    Route::get('/show/team/name/{id}',[App\Http\Controllers\admin\TeamController::class,'ShowTeamName']);
+
 
     });
 
@@ -49,6 +51,7 @@ Route::middleware(['auth:api'])->group(callback: function (){
         Route::get('/show/users',[\App\Http\Controllers\admin\UserController::class, 'ShowUsers']);
         Route::get('/show/user/{user}',[App\Http\Controllers\admin\UserController::class,'ShowUser']);
         Route::get('/show/with/details',[App\Http\Controllers\admin\UserController::class,'ShowUsersDetails']);
+        Route::get('/show/user/details/{user}',[App\Http\Controllers\admin\UserController::class,'show']);
     });
 
     //-----------------------------------TASK API-------------------------------------
@@ -91,7 +94,7 @@ Route::middleware(['auth:api'])->group(callback: function (){
         Route::post('/{task}/subtask/update/{subtask}',[\App\Http\Controllers\teamleader\SubtaskController::class,'update']);
         Route::delete('/{task}/subtask/delete/{subtask}',[\App\Http\Controllers\teamleader\SubtaskController::class,'destroy']);
         Route::get('/show/SubTask/{task}',[\App\Http\Controllers\teamleader\SubtaskController::class, 'show']);
-
+        Route::Put('/refresh/{id}',[\App\Http\Controllers\teamleader\SubtaskController::class, 'UpdateTheTask']);
             });
 
     });
@@ -110,17 +113,23 @@ Route::middleware(['auth:api'])->group(callback: function (){
 
     });
 
-    //COMMENT  AND ATTACHMENT API
+    //--------------------------------COMMENT  AND ATTACHMENT API----------------------------------
     Route::prefix('/task')->group(function () {
         Route::post('/{task}/comment/add',[\App\Http\Controllers\CommentController::class,'store']);
         Route::put('/{task}/comment/edit/{comment}',[\App\Http\Controllers\CommentController::class,'update']);
         Route::delete('/{task}/comment/delete/{comment}',[\App\Http\Controllers\CommentController::class,'destroy']);
         Route::get('/show/comments/{id}',[\App\Http\Controllers\CommentController::class, 'show']);
+        Route::get('/show/one/comments/{id}',[\App\Http\Controllers\CommentController::class, 'ShowOneComment']);
+        Route::get('/show/my/comments',[\App\Http\Controllers\CommentController::class, 'ShowMyComments']);
 
-        Route::post('/attachment/add',[\App\Http\Controllers\AttachmentController::class,'store']);
-        Route::post('/attachment/edit/{attachment}',[\App\Http\Controllers\AttachmentController::class,'update']);
-        Route::delete('/attachment/delete/{attachment}',[\App\Http\Controllers\AttachmentController::class,'destroy']);
+
+        Route::post('/{task}/attachment/add',[\App\Http\Controllers\AttachmentController::class,'store']);
+        Route::post('{task}/attachment/edit/{attachment}',[\App\Http\Controllers\AttachmentController::class,'update']);
+        Route::delete('{task}/attachment/delete/{attachment}',[\App\Http\Controllers\AttachmentController::class,'destroy']);
         Route::get('/show/attachment/{id}',[\App\Http\Controllers\AttachmentController::class, 'show']);
+        Route::get('/show/one/attachment/{id}',[\App\Http\Controllers\AttachmentController::class, 'ShowOne']);
+        Route::get('/show/my/attachment',[\App\Http\Controllers\AttachmentController::class, 'ShowMyAttachment']);
+        //
     });
 
     //--------------------------------CALENDER-----------------------------------
@@ -134,12 +143,20 @@ Route::middleware(['auth:api'])->group(callback: function (){
     //-----------------------------SHOW CONTROLLER-----------------------------------------------
     Route::get('/show/MyTeam',[\App\Http\Controllers\ShowController::class,'ShowMyTeam']);
     Route::get('/show/MyMeeting',[\App\Http\Controllers\ShowController::class,'ShowMyMeetings']);
+
+    Route::get('/show/OneMeeting/{id}',[\App\Http\Controllers\ShowController::class,'ShowOneMeeting']);
+
     Route::get('/show/MyProfile',[\App\Http\Controllers\ShowController::class,'ShowMyProfile']);
     Route::get('/show/MyTask',[\App\Http\Controllers\ShowController::class,'ShowMyTask']);
     Route::get('/show/MySubTask',[\App\Http\Controllers\ShowController::class,'ShowMySubTask']);
     Route::get('/show/details/{task}',[\App\Http\Controllers\ShowController::class,'Details']);
+    Route::get('/show/one/subtask/{id}',[\App\Http\Controllers\ShowController::class,'ShowOneSubTask']);
     Route::post('/search/task',[\App\Http\Controllers\ShowController::class,'TaskSearch']);
     Route::post('/search/subtask',[\App\Http\Controllers\ShowController::class,'SubTaskSearch']);
+
+    Route::get('/show/notification',[\App\Http\Controllers\NotificationController::class,'ShowMyNotification']);
+    Route::get('/read/notification/{id}',[\App\Http\Controllers\NotificationController::class,'ReadMyNotification']);
+    Route::get('/show/ReadNotification',[\App\Http\Controllers\NotificationController::class,'ReadNotification']);
 
     //----------------------------------Filtering-------------------------------------------
 
@@ -147,10 +164,12 @@ Route::middleware(['auth:api'])->group(callback: function (){
     Route::get('/show/progress/tasks',[\App\Http\Controllers\FilteringController::class,'OnProgressTask']);
     Route::get('/show/missed/tasks',[\App\Http\Controllers\FilteringController::class,'MissedTask']);
     Route::get('/show/todo/tasks',[\App\Http\Controllers\FilteringController::class,'To_DoTask']);
+
     Route::get('/show/completed/subtasks',[\App\Http\Controllers\FilteringController::class,'CompletedSubTask']);
     Route::get('/show/progress/subtasks',[\App\Http\Controllers\FilteringController::class,'ProgressSubTask']);
     Route::get('/show/missed/subtasks',[\App\Http\Controllers\FilteringController::class,'MissedSubTask']);
     Route::get('/show/todo/subtasks',[\App\Http\Controllers\FilteringController::class,'ToDoSubTask']);
+    Route::get('/show/late/subtasks',[\App\Http\Controllers\FilteringController::class,'LateSubTask']);
 
 
 
@@ -159,14 +178,17 @@ Route::middleware(['auth:api'])->group(callback: function (){
     Route::get('/show/statistic',[\App\Http\Controllers\ReportController::class,'ShowStatistic']);
     Route::get('/show/member/statistic',[\App\Http\Controllers\ReportController::class,'ShowMemberStatistic']);
 
-
-
-
-
-
-    Route::get('/show1',[\App\Http\Controllers\ShowController::class, 'state1']);
-    Route::get('/show2',[\App\Http\Controllers\ShowController::class, 'state2']);
-    Route::get('/show3',[\App\Http\Controllers\ShowController::class, 'state3']);
+    Route::get('/achiever/show/',[\App\Http\Controllers\ReportController::class,'Achiever']);
 });
+//---------------------------SHOWING STATE----------------------------------------
+Route::get('/show1',[\App\Http\Controllers\ShowConstantController::class, 'state1']);
+Route::get('/show1/name/{id}',[\App\Http\Controllers\ShowConstantController::class, 'State1Name']);
+Route::get('/show2',[\App\Http\Controllers\ShowConstantController::class, 'state2']);
+Route::get('/show2/name/{id}',[\App\Http\Controllers\ShowConstantController::class, 'State2Name']);
+Route::get('/show3',[\App\Http\Controllers\ShowConstantController::class, 'state3']);
+Route::get('/show3/name/{id}',[\App\Http\Controllers\ShowConstantController::class, 'State3Name']);
+Route::get('/show4',[\App\Http\Controllers\ShowConstantController::class, 'state4']);
+Route::get('/show4/name/{id}',[\App\Http\Controllers\ShowConstantController::class, 'State4Name']);
 
+Route::Post('/test',[\App\Http\Controllers\TestController::class,'TestingImg']);
 

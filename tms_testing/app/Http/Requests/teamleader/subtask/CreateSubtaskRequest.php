@@ -30,6 +30,8 @@ class CreateSubtaskRequest extends FormRequest
             'status_id'=>'required',
             'user_list'=>'required' // the member that i will assigned to it
            // 'task_id'=>'required',
+              //'start_date'=>'required|date|after_or_equal:today',
+            //'end_date'=>'required|date|after:start_date',
 
         ];
     }

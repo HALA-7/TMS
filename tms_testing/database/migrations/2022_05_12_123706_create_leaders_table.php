@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('leaders', function (Blueprint $table) {
+        Schema::create('leaders', function (Blueprint $table)
+        {
             $table->id();
             $table->text('img_profile')->nullable();//
             $table->tinyText('phone');

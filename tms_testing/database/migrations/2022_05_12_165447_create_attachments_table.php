@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->mediumText('title');
             $table->text('description');
-            $table->text('file')->nullable();
-            $table->mediumText('FileName')->nullable();
-            $table->mediumText('FilePath')->nullable();
+            //$table->text('file')->nullable();
+            //$table->mediumText('FileName')->nullable();
+            //$table->mediumText('FilePath')->nullable();
             $table->foreignId('user_id')->constrained('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

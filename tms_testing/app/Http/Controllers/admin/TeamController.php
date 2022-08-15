@@ -63,6 +63,7 @@ class TeamController extends Controller
     //TO SHOW EACH TEAM AND ITS DETAILS (the leaders and members)
     public function ShowTeam(Team $id)
     {
+        //return \response()->json($id->get());
 
         if(Auth::check()) {
             $this->authorize('view',$id);
@@ -75,8 +76,7 @@ class TeamController extends Controller
                 ->where('team_id', '=', $id->id)
                 ->get();
 
-            //$id->leader()->get();
-            //$id->members()->get();
+
             $members = DB::table('teams')
                 ->join('users', 'teams.id', '=', 'users.team_id')
                 ->join('members','users.id','=','members.user_id')
@@ -84,9 +84,15 @@ class TeamController extends Controller
                 ->where('role_id', '=', Role::team_member)
                 ->where('team_id', '=', $id->id)
                 ->get();
-            return response()->json([ 'leader' => $leader, 'members' => $members],Response::HTTP_OK);
+            return response()->json([ 'the team'=>$id,'leader' => $leader, 'members' => $members],Response::HTTP_OK);
         }
 
+    }
+
+    public function ShowTeamName(Team $id)
+    {
+        $t=Team::query()->where('teams.id','=',$id->id)->get();
+        return \response()->json($t);
     }
 
 
